@@ -5,8 +5,11 @@ int led_rosso=12;
 int rosso_giallo=0;
 int bianco_verde=0;  
 int serial_begin=9600;
+int i=0;
+int giri=0;
 void rg (void);
 void bv (void);
+void ripeti (void);
 void setup() {
   pinMode(led_giallo, OUTPUT);
   pinMode(led_bianco, OUTPUT);
@@ -21,6 +24,10 @@ void setup() {
   while(Serial.available()==0){}
   bianco_verde=Serial.readString().toInt();
   Serial.println(bianco_verde);
+  Serial.println("Inserisci quanti giri fare prima di fermarsi");
+  while(Serial.available()==0){}
+  giri=Serial.readString().toInt();
+  Serial.println(giri);
   } 
   void rg (void){
     digitalWrite(led_rosso,HIGH);
@@ -36,8 +43,14 @@ void setup() {
     digitalWrite(led_bianco,LOW);
     digitalWrite(led_verde,LOW);
   }
+ void ripeti(void){
+    rg();
+  bv();
+ }
 
 void loop() {
-  rg();
-  bv();
+while(i<giri){
+  ripeti();
+  i++;
+}
 }
